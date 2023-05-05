@@ -27,14 +27,11 @@ export default function AllGames() {
 
     const loadMore = () => {
         setVisible(visible + 20);
-        // console.log(visible);
-        // console.log(visible < allGames.length);
     }
 
     useEffect(function () {
         console.log(visible);
         getAllGames();
-
     }, [visible])
 
     return <>

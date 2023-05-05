@@ -19,7 +19,7 @@ export default function App() {
   function ProtectedRoute({ children }) {
     if (!loggedUser && !localStorage.getItem('token')) {
       // console.log("halo");
-      return <Navigate to='/login' />
+      return <Navigate to='/login' replace={true} />
     } else {
       return <>{children}</>
     }

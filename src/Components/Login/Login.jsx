@@ -20,7 +20,7 @@ export default function Login({ decodeUser }) {
         localStorage.setItem('token', data.token);
         setLoading(false);
         $(".successMsg").fadeIn(2000, function () {
-          navigate('/home');
+          navigate('/home', { replace: true });
           decodeUser();
         })
       }
