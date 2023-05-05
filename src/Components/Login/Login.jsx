@@ -8,19 +8,24 @@ export default function Login({ decodeUser }) {
 
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   async function loginUser(obj) {
     // console.log(obj);
+    setLoading(true);
     try {
       let { data } = await axios.post("https://route-ecommerce.onrender.com/api/v1/auth/signin", obj);
       // console.log(data);
       if (data.message == 'success') {
         localStorage.setItem('token', data.token);
-        decodeUser();
+        setLoading(false);
         $(".successMsg").fadeIn(2000, function () {
-          navigate('/');
+          navigate('/home');
+          decodeUser();
         })
       }
     } catch (error) {
+      setLoading(false);
       // console.log(error);
       $(".errorMsg").fadeIn(1000, function () {
         setTimeout(() => {
@@ -68,8 +73,7 @@ export default function Login({ decodeUser }) {
             <div className="row p-4">
               <div className="col-12 mb-3"><input onBlur={formik.handleBlur} onChange={formik.handleChange} id='email' value={formik.values.email} className="form-control" type="email" placeholder='Email Address' />{formik.errors.email && formik.touched.email ? <div className="alert alert-danger text-center">{formik.errors.email}</div> : ''}</div>
               <div className="col-12 mb-3"><input onBlur={formik.handleBlur} onChange={formik.handleChange} id='password' value={formik.values.password} className="form-control" type="password" placeholder='Password' />{formik.errors.password && formik.touched.password ? <div className="alert alert-danger text-center">{formik.errors.password}</div> : ''}</div>
-              <div className="col-12 mb-2"><button type="submit" className="btn btn-primary w-100 text-white p-2">Login</button></div>
-              <div className="col-12"></div>
+              <div className="col-12 mb-2"><button type="submit" disabled={loading || !(formik.isValid && formik.dirty)} className="btn btn-primary w-100 text-white p-2">{loading ? <i className="fa-solid fa-spinner fa-spin"></i> : "Login"}</button></div>
               <div className="col-12"><hr /></div>
               <div className="col-12"><p className='login text-center'>Not a member yet? <Link className='text-decoration-none' to={"/register"}>Create Account <i className="fa-solid fa-chevron-right"></i></Link></p></div>
             </div>

@@ -1,26 +1,31 @@
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import $ from 'jquery'
 
-export default function Register({decodeUser}) {
+export default function Register({ decodeUser }) {
 
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   async function registerNewUser(obj) {
+    setLoading(true);
     // console.log(obj);
     try {
       let { data } = await axios.post("https://route-ecommerce.onrender.com/api/v1/auth/signup", obj);
       // console.log(data);
       if (data.message == 'success') {
         localStorage.setItem('token', data.token);
-        decodeUser();
+        setLoading(false);
         $(".successMsg").fadeIn(2000, function () {
           navigate('/home');
+          decodeUser();
         })
       }
     } catch (error) {
+      setLoading(false);
       $(".errorMsg").fadeIn(1000, function () {
         setTimeout(() => {
           $(".errorMsg").fadeOut(1000)
@@ -93,7 +98,7 @@ export default function Register({decodeUser}) {
               <div className="col-12 mb-3"><input onBlur={formik.handleBlur} onChange={formik.handleChange} id='phone' value={formik.values.phone} className="form-control" type="number" placeholder='Phone Number' />{formik.errors.phone && formik.touched.phone ? <div className="alert alert-danger text-center">{formik.errors.phone}</div> : ''}</div>
               <div className="col-12 mb-3"><input onBlur={formik.handleBlur} onChange={formik.handleChange} id='password' value={formik.values.password} className="form-control" type="password" placeholder='Password' />{formik.errors.password && formik.touched.password ? <div className="alert alert-danger text-center">{formik.errors.password}</div> : ''}</div>
               <div className="col-12 mb-3"><input onBlur={formik.handleBlur} onChange={formik.handleChange} id='rePassword' value={formik.values.rePassword} className="form-control" type="password" placeholder='Confirm Password' />{formik.errors.rePassword && formik.touched.rePassword ? <div className="alert alert-danger text-center">{formik.errors.rePassword}</div> : ''}</div>
-              <div className="col-12 mb-3"><button type="submit" className="btn btn-primary w-100 text-white p-2">Create Account</button></div>
+              <div className="col-12 mb-3"><button type="submit" disabled={loading || !(formik.isValid && formik.dirty)} className="btn btn-primary w-100 text-white p-2">{loading ? <i className="fa-solid fa-spinner fa-spin"></i> : "Login"}</button></div>
               <div className="col-12">
                 <p className='terms mb-2'>This site is protected by reCAPTCHA and the Google <a target="_blank" href="https://policies.google.com/privacy">Privacy Policy</a> and <a target="_blank" href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
               </div>

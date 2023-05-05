@@ -1,6 +1,5 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
 import LoadingScreen from '../LoadingScreen/LoadingScreen';
 import Game from '../Game/Game';
 
@@ -27,12 +26,16 @@ export default function AllGames() {
     }
 
     const loadMore = () => {
-        setVisible((prevState) => prevState + 20);
+        setVisible(visible + 20);
+        // console.log(visible);
+        // console.log(visible < allGames.length);
     }
 
     useEffect(function () {
+        console.log(visible);
         getAllGames();
-    }, [])
+
+    }, [visible])
 
     return <>
         {loadingDone ? <div className="container customMargin p-1"><div className="row my-5">
@@ -41,7 +44,7 @@ export default function AllGames() {
                     <Game game={game} />
                 </div>
             })}
-            <div className="col-12 text-center"><button onClick={loadMore} className='btn btn-primary'>Load More</button></div>
+            {visible < allGames.length ? <div className="col-12 text-center"><button onClick={loadMore} className='btn btn-primary'>Load More</button></div> : ''}
         </div></div> : <div className="loadingScreen"><LoadingScreen /></div>}
     </>
 }

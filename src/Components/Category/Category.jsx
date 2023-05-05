@@ -42,7 +42,7 @@ export default function Category() {
                 <Game game={game} />
             </div>
         })}
-        <div className="col-12 text-center"><button onClick={loadMore} className='btn btn-primary'>Load More</button></div>
+        {visible < categoryGames.length ? <div className="col-12 text-center"><button onClick={loadMore} className='btn btn-primary'>Load More</button></div> : ''}
     </div></div> : <div className="loadingScreen"><LoadingScreen /></div>}
     </>
 }
