@@ -35,21 +35,20 @@ export default function App() {
     setLoggedUser(null);
   }
 
-  const router = createBrowserRouter([
-    {
-      path: '', element: <Layout clearUserData={clearUserData} loggedUser={loggedUser} />, children: [
-        { path: '', element: <ProtectedRoute><Home /> </ProtectedRoute> },
-        { path: 'home', element: <ProtectedRoute><Home /></ProtectedRoute> },
-        { path: 'all', element: <ProtectedRoute><AllGames /></ProtectedRoute> },
-        { path: 'gamedetails/:id', element: <ProtectedRoute><GameDetails /></ProtectedRoute> },
-        { path: 'games/platforms/:type', element: <ProtectedRoute><Platform /></ProtectedRoute> },
-        { path: 'games/sort-by/:type', element: <ProtectedRoute><SortBy /></ProtectedRoute> },
-        { path: 'games/category/:type', element: <ProtectedRoute><Category /></ProtectedRoute> },
-        { path: 'login', element: <Login decodeUser={decodeUser} /> },
-        { path: 'register', element: <Register decodeUser={decodeUser} /> },
-        { path: '*', element: <NotFound /> }
-      ]
-    }
+  const router = createBrowserRouter([{
+    path: 'GameOver', element: <Layout clearUserData={clearUserData} loggedUser={loggedUser} />, children: [
+      { path: '', element: <ProtectedRoute><Home /> </ProtectedRoute> },
+      { path: 'home', element: <ProtectedRoute><Home /></ProtectedRoute> },
+      { path: 'all', element: <ProtectedRoute><AllGames /></ProtectedRoute> },
+      { path: 'gamedetails/:id', element: <ProtectedRoute><GameDetails /></ProtectedRoute> },
+      { path: 'games/platforms/:type', element: <ProtectedRoute><Platform /></ProtectedRoute> },
+      { path: 'games/sort-by/:type', element: <ProtectedRoute><SortBy /></ProtectedRoute> },
+      { path: 'games/category/:type', element: <ProtectedRoute><Category /></ProtectedRoute> },
+      { path: 'login', element: <Login decodeUser={decodeUser} /> },
+      { path: 'register', element: <Register decodeUser={decodeUser} /> },
+      { path: '*', element: <NotFound /> }
+    ]
+  }
   ])
 
   useEffect(function () {
