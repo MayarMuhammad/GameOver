@@ -17,11 +17,9 @@ export default function Register({ decodeUser }) {
       let { data } = await axios.post("https://route-ecommerce.onrender.com/api/v1/auth/signup", obj);
       // console.log(data);
       if (data.message == 'success') {
-        localStorage.setItem('token', data.token);
         setLoading(false);
         $(".successMsg").fadeIn(2000, function () {
-          navigate('/home');
-          decodeUser();
+          navigate('/login', { replace: true });
         })
       }
     } catch (error) {
